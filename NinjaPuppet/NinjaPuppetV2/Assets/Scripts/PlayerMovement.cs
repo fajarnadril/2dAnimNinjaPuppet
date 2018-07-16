@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour {
     public bool BisaLompat;
     public bool NotLanding;
     public bool DisableButton;
+    public bool Attacking;
 
 	// Use this for initialization
 	void Start ()
@@ -32,6 +33,7 @@ public class PlayerMovement : MonoBehaviour {
         LandingTime = 0.5f;
         BisaLompat = true;
         DisableButton = false;
+        Attacking = false;
     }
 	
 	// Update is called once per frame
@@ -63,12 +65,12 @@ public class PlayerMovement : MonoBehaviour {
             Character.transform.localScale = Flip;
             CharacterMovement.SetBool("Jalan", true);
         }
-        if (Input.GetKey(KeyCode.Space) && BisaLompat == true) 
+        if (Input.GetKey(KeyCode.Space) && BisaLompat == true && DisableButton == false) 
         {
-            Character.GetComponent<Rigidbody2D>().AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
             BisaLompat = false;
             CharacterMovement.SetBool("Lompat", true);
             CharacterMovement.SetBool("Mendarat", false);
+            StartCoroutine("JumpWait");
             NotLanding = false;
             //DisableButton = true;
         }
@@ -81,10 +83,11 @@ public class PlayerMovement : MonoBehaviour {
             SpeedMultiplier = 1;
         }
 
-        if (Input.GetKey(KeyCode.A)) {
+        if (Input.GetKeyDown(KeyCode.A) && Attacking == false) {
             CharacterMovement.SetBool("Attack1", true);
             DisableButton = true;
             StartCoroutine("Attack1Wait");
+            Attacking = true;
         }
     }
 
@@ -108,5 +111,12 @@ public class PlayerMovement : MonoBehaviour {
     public IEnumerator Attack1Wait() {
         yield return new WaitForSeconds(0.5f);
         DisableButton = false;
+        Attacking = false;
+    }
+
+    public IEnumerator JumpWait()
+    {
+        yield return new WaitForSeconds(0.1f);
+        Character.GetComponent<Rigidbody2D>().AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
     }
 }
