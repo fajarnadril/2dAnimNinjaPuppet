@@ -39,8 +39,10 @@ public class PlayerMovement : MonoBehaviour {
         LokasiCharacter = Character.transform.position;
         CharacterMovement.SetBool("Jalan", false);
         CharacterMovement.SetBool("Lari", false);
+        CharacterMovement.SetBool("Attack1", false);
+
         //Despacito
-        if (Input.GetKey(KeyCode.D) && DisableButton == false )
+        if (Input.GetKey(KeyCode.RightArrow) && DisableButton == false )
         {
             if (Character.transform.localScale.x > 0)
             {
@@ -51,7 +53,7 @@ public class PlayerMovement : MonoBehaviour {
             Character.transform.localScale = Flip;
             CharacterMovement.SetBool("Jalan", true);
         }
-        if (Input.GetKey(KeyCode.A) && DisableButton == false)
+        if (Input.GetKey(KeyCode.LeftArrow) && DisableButton == false)
         {
             if(Character.transform.localScale.x < 0) {
                 Flip.x = Flip.x * -1;
@@ -61,14 +63,14 @@ public class PlayerMovement : MonoBehaviour {
             Character.transform.localScale = Flip;
             CharacterMovement.SetBool("Jalan", true);
         }
-        if (Input.GetKey(KeyCode.W) && BisaLompat == true && CharacterAnimation.IsPlaying("Run"))
+        if (Input.GetKey(KeyCode.Space) && BisaLompat == true) 
         {
             Character.GetComponent<Rigidbody2D>().AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
             BisaLompat = false;
             CharacterMovement.SetBool("Lompat", true);
             CharacterMovement.SetBool("Mendarat", false);
             NotLanding = false;
-            DisableButton = true;
+            //DisableButton = true;
         }
         if (Input.GetKey(KeyCode.LeftShift) && BisaLompat == true) {
             SpeedMultiplier = 2;
@@ -77,6 +79,12 @@ public class PlayerMovement : MonoBehaviour {
         if (CharacterMovement.GetBool("Lari") == false && BisaLompat == true)
         {
             SpeedMultiplier = 1;
+        }
+
+        if (Input.GetKey(KeyCode.A)) {
+            CharacterMovement.SetBool("Attack1", true);
+            DisableButton = true;
+            StartCoroutine("Attack1Wait");
         }
     }
 
@@ -95,5 +103,10 @@ public class PlayerMovement : MonoBehaviour {
         yield return new WaitForSeconds(LandingTime);
         NotLanding = true;
         BisaLompat = true;
+    }
+
+    public IEnumerator Attack1Wait() {
+        yield return new WaitForSeconds(0.5f);
+        DisableButton = false;
     }
 }
