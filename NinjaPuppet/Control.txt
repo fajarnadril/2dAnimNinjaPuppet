@@ -1,0 +1,8 @@
+WASD = Move Character
+Space = CharacterAttack
+Left Shift = Character Run
+
+Arrow Key = Move Enemy
+Right Ctrl = Enemy Attack
+Right Shift = Enemy Run
+K = Enemy Dead

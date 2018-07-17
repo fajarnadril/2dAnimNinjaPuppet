@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour {
         CharacterMovement.SetBool("Attack1", false);
 
         //Despacito
-        if (Input.GetKey(KeyCode.RightArrow) && DisableButton == false )
+        if (Input.GetKey(KeyCode.D) && DisableButton == false )
         {
             if (Character.transform.localScale.x > 0)
             {
@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour {
             Character.transform.localScale = Flip;
             CharacterMovement.SetBool("Jalan", true);
         }
-        if (Input.GetKey(KeyCode.LeftArrow) && DisableButton == false)
+        if (Input.GetKey(KeyCode.A) && DisableButton == false)
         {
             if(Character.transform.localScale.x < 0) {
                 Flip.x = Flip.x * -1;
@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour {
             Character.transform.localScale = Flip;
             CharacterMovement.SetBool("Jalan", true);
         }
-        if (Input.GetKey(KeyCode.Space) && BisaLompat == true && DisableButton == false) 
+        if (Input.GetKey(KeyCode.W) && BisaLompat == true && DisableButton == false) 
         {
             BisaLompat = false;
             CharacterMovement.SetBool("Lompat", true);
@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour {
             SpeedMultiplier = 1;
         }
 
-        if (Input.GetKeyDown(KeyCode.A) && Attacking == false) {
+        if (Input.GetKeyDown(KeyCode.Space) && Attacking == false) {
             CharacterMovement.SetBool("Attack1", true);
             DisableButton = true;
             StartCoroutine("Attack1Wait");
